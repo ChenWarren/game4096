@@ -2,8 +2,11 @@ html,
 body {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #000;
+  color: rgb(172, 172, 172);
 }
 
 a {
@@ -13,4 +16,147 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar {
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5px;
+}
+
+.game-board {
+    padding: 15px 0;
+}
+
+.row {
+  width: 450px;
+  height: 110px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color:rgb(147, 147, 147);
+    margin: 5px;
+}
+
+.bg-0 {
+  background-color: rgb(43, 43, 43);
+  color:rgb(43, 43, 43);
+}
+
+.bg-2 {
+  background-color: rgb(73, 67, 67);
+}
+
+.bg-4 {
+  background-color: rgb(97, 83, 66);
+}
+.bg-8 {
+  background-color: rgb(59, 111, 112);
+}
+.bg-16 {
+  background-color: rgb(74, 151, 93);
+}
+.bg-32 {
+  background-color: rgb(61, 108, 158);
+}
+.bg-64 {
+  background-color: rgb(90, 61, 158);
+}
+.bg-128 {
+  background-color: rgb(110, 50, 130);
+}
+.bg-256 {
+  background-color: rgb(61, 158, 148);
+}
+.bg-512 {
+  background-color: rgb(158, 147, 61);
+}
+.bg-1024 {
+  background-color: rgb(145, 43, 104);
+}
+.bg-2048 {
+  background-color: rgb(184, 22, 22);
+}
+
+.button-wrapper {
+    width: 260px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+}
+
+.notice {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.arrow {
+   width: 80px;
+   height: 60px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 1.5rem;
+   background-color: rgb(55, 55, 55);
+   border-radius: 10px;
+   margin: 3px;
+   cursor: pointer;
+}
+
+.game-over {
+   width: 375px;
+   height: 375px;
+   background-color: rgba(140, 140, 140, 0.5);
+   color:rgb(213, 213, 213);
+   font-size: 2rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+@media (max-width: 600px) { 
+  .navbar {
+    width: 100%;
+    padding: 0 20px;
+  }
+  .row {
+    width: 375px;
+    height: auto;
+  }
+  .cell {
+    width: 75px;
+    height: 75px;
+    font-size: 1.8rem;
+  }
+  .button-wrapper {
+      margin-top: 0;
+  }
+  .arrow {
+    height: 55px;
+  }
 }
