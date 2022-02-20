@@ -34,6 +34,13 @@ a {
     padding: 20px 5px;
 }
 
+.title {
+    height: 50px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
 .game-board {
     padding: 15px 0;
 }
@@ -157,7 +164,8 @@ a {
       margin-top: 0;
   }
   .arrow {
-    height: 45px;
+    height: 40px;
+    font-size: 1.2rem;
   }
   .notice {
     height: 30px;

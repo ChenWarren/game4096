@@ -90,7 +90,7 @@ const Game4096: NextPage = () => {
     <div className='container'>
 
       <div className='navbar'>
-        <h1>Game 4096</h1>
+        <div className='title'>Game 4096</div>
         {gameOver?
             <Arrow text='Start' handler={startGame}/>
             :
