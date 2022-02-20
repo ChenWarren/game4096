@@ -12,7 +12,7 @@ const Arrow: FC<ArrowProps> = ({
   return (
     <div 
         className='arrow'
-        onClick={handler}
+        onClick={()=> handler()}
     >
         {text}
     </div>
