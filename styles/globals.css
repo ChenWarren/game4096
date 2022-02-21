@@ -47,7 +47,8 @@ a {
     height: 440px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+
 }
 
 .row {
@@ -153,7 +154,7 @@ a {
 
 @media (max-width: 600px) { 
   .navbar {
-    width: 100%;
+    width: 370px;
     padding: 0 10px;
   }
   .row {
@@ -173,6 +174,7 @@ a {
     font-size: 1.2rem;
   }
   .notice {
+    width: 370px;
     height: 30px;
   }
   .game-board {
