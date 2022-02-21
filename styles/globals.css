@@ -68,7 +68,7 @@ a {
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    color:rgb(147, 147, 147);
+    color:rgb(186, 186, 186);
     margin: 5px;
 }
 
@@ -78,38 +78,41 @@ a {
 }
 
 .bg-2 {
-  background-color: rgb(124, 107, 61);
+  background-color: rgb(116, 98, 48);
 }
 
 .bg-4 {
   background-color: rgb(128, 81, 23);
 }
 .bg-8 {
-  background-color: rgb(59, 111, 112);
+  background-color: rgb(46, 97, 29);
 }
 .bg-16 {
-  background-color: rgb(74, 151, 93);
+  background-color: rgb(11, 108, 58);
 }
 .bg-32 {
-  background-color: rgb(61, 108, 158);
+  background-color: rgb(23, 129, 148);
 }
 .bg-64 {
-  background-color: rgb(90, 61, 158);
+  background-color: rgb(31, 50, 154);
 }
 .bg-128 {
-  background-color: rgb(110, 50, 130);
+  background-color: rgb(72, 29, 131);
 }
 .bg-256 {
-  background-color: rgb(61, 158, 148);
+  background-color: rgb(128, 22, 163);
 }
 .bg-512 {
-  background-color: rgb(158, 100, 61);
+  background-color: rgb(134, 87, 4);
 }
 .bg-1024 {
-  background-color: rgb(145, 43, 104);
+  background-color: rgb(146, 22, 96);
 }
 .bg-2048 {
-  background-color: rgb(184, 22, 22);
+  background-color: rgb(128, 6, 63);
+}
+.bg-4096 {
+  background-color: rgb(160, 6, 6);
 }
 
 .button-wrapper {
@@ -164,7 +167,7 @@ a {
   .cell {
     width: 70px;
     height: 70px;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
   .button-wrapper {
       margin-top: 0;

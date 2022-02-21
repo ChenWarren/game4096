@@ -2,9 +2,13 @@
 const matrixHandler = ({
     matrix,
     direction,
+    score,
+    setScore,
 }: { 
     matrix: number[][], 
-    direction: string
+    direction: string,
+    score: number,
+    setScore: Function
 }) => {
 
     let resultMatrix: number[][] = []
@@ -114,7 +118,7 @@ const swapMatrix = (swapMatrix:number[][]) => {
 }
 
 const getEmptyIndex = (scanMatrix: number[][]) => {
-    let edgeList: number[][] = []
+
     let allList: number[][] = []
 
     for( let i=0; i<scanMatrix.length; i++){

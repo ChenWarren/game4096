@@ -17,6 +17,7 @@ const Game4096: NextPage = () => {
   const [gameMatrix, setGameMatrix] = useState(initMatrix)
   const [gameOver, setGameOver] = useState(false)
   const [notice, setNotice] = useState(true)
+  const [score, setScore] = useState(0)
 
   useEffect(()=> {
       setGameMatrix(initMatrix)
@@ -36,7 +37,7 @@ const Game4096: NextPage = () => {
       }
       let direction = 'Left'
       let matrix= gameMatrix
-      const res = matrixHandler({matrix, direction})
+      const res = matrixHandler({matrix, direction, score, setScore})
       if(res != 'GameOver'){
         setGameMatrix(res)
       } else {
@@ -50,7 +51,7 @@ const Game4096: NextPage = () => {
       }
       let direction = 'Right'
       let matrix= gameMatrix
-      const res = matrixHandler({matrix, direction})
+      const res = matrixHandler({matrix, direction, score, setScore})
       if(res != 'GameOver'){
         setGameMatrix(res)
       } else {
@@ -64,7 +65,7 @@ const Game4096: NextPage = () => {
       }
       let direction = 'Up'
       let matrix= gameMatrix
-      const res = matrixHandler({matrix, direction})
+      const res = matrixHandler({matrix, direction, score, setScore})
       if(res != 'GameOver'){
         setGameMatrix(res)
       } else {
@@ -78,7 +79,7 @@ const Game4096: NextPage = () => {
       }
       let direction = 'Down'
       let matrix= gameMatrix
-      const res = matrixHandler({matrix, direction})
+      const res = matrixHandler({matrix, direction, score, setScore})
       if(res != 'GameOver'){
         setGameMatrix(res)
       } else {
@@ -94,6 +95,7 @@ const Game4096: NextPage = () => {
         {gameOver?
             <Arrow text='Start' handler={startGame}/>
             :
+            // <div>Score: {score}</div>
             null
         }
       </div>
