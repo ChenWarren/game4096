@@ -15,7 +15,7 @@ const initMatrix: number[][] = [
 const Game4096: NextPage = () => {
 
   const [gameMatrix, setGameMatrix] = useState(initMatrix)
-  const [gameOver, setGameOver] = useState(true)
+  const [gameOver, setGameOver] = useState(false)
   const [notice, setNotice] = useState(true)
 
   useEffect(()=> {
