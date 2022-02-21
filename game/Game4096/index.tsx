@@ -134,15 +134,15 @@ const Game4096: NextPage = () => {
       <div className='button-wrapper'>
 
           <div>
-              <Arrow text='&#11013;' handler={leftHandler}/>
+              <Arrow text='&#x2190;' handler={leftHandler}/>
           </div>
           <div>
-              <Arrow text = '&#11014;' handler={upHandler}/>
+              <Arrow text = '&#x2191;' handler={upHandler}/>
               <div style={{width: 70, height: 50}}></div>
-              <Arrow text = '&#11015;' handler={downHandler}/>
+              <Arrow text = '&#x2193;' handler={downHandler}/>
           </div>
           <div>
-              <Arrow text = '&#10145;' handler={rightHandler}/>
+              <Arrow text = '&#x2192;' handler={rightHandler}/>
 
           </div>
       </div>
