@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Cell from '../../comps/Cell'
 import Arrow from '../../comps/Arrow'
 import matrixHandler from './model/matrixHandler'
+import getHighestNumber from './model/getRecord'
 
 const initMatrix: number[][] = [
     [0,0,0,0],
@@ -15,9 +16,11 @@ const initMatrix: number[][] = [
 const Game4096: NextPage = () => {
 
   const [gameMatrix, setGameMatrix] = useState(initMatrix)
+  const [win, setWin] = useState(false)
   const [gameOver, setGameOver] = useState(false)
   const [notice, setNotice] = useState(true)
   const [score, setScore] = useState(0)
+  const [record, setRecord] = useState(0)
 
   useEffect(()=> {
       setGameMatrix(initMatrix)
@@ -27,8 +30,25 @@ const Game4096: NextPage = () => {
       if(gameOver) {
         setGameOver(false)
       }
+      if(win) {
+        setWin(false)
+      }
       setNotice(true)
       setGameMatrix(initMatrix)
+      setRecord(0)
+  }
+
+  const checkGameStatus = (result:any) => {
+    if(result != 'GameOver'){
+      setGameMatrix(result)
+      let maxNumber = getHighestNumber(result)
+      setRecord(maxNumber)
+      if(maxNumber==4096){
+          setWin(true)
+      }
+    } else {
+      setGameOver(true)
+    }
   }
 
   const leftHandler = () => {
@@ -38,11 +58,7 @@ const Game4096: NextPage = () => {
       let direction = 'Left'
       let matrix= gameMatrix
       const res = matrixHandler({matrix, direction, score, setScore})
-      if(res != 'GameOver'){
-        setGameMatrix(res)
-      } else {
-        setGameOver(true)
-      }
+      checkGameStatus(res)
   }
 
   const rightHandler = () => {
@@ -52,11 +68,7 @@ const Game4096: NextPage = () => {
       let direction = 'Right'
       let matrix= gameMatrix
       const res = matrixHandler({matrix, direction, score, setScore})
-      if(res != 'GameOver'){
-        setGameMatrix(res)
-      } else {
-        setGameOver(true)
-      }
+      checkGameStatus(res)
   }
 
   const upHandler = () => {
@@ -66,11 +78,7 @@ const Game4096: NextPage = () => {
       let direction = 'Up'
       let matrix= gameMatrix
       const res = matrixHandler({matrix, direction, score, setScore})
-      if(res != 'GameOver'){
-        setGameMatrix(res)
-      } else {
-        setGameOver(true)
-      }
+      checkGameStatus(res)
   }
 
   const downHandler = () => {
@@ -80,45 +88,46 @@ const Game4096: NextPage = () => {
       let direction = 'Down'
       let matrix= gameMatrix
       const res = matrixHandler({matrix, direction, score, setScore})
-      if(res != 'GameOver'){
-        setGameMatrix(res)
-      } else {
-        setGameOver(true)
-      }
+      checkGameStatus(res)
   }
 
+  
   return (
     <div className='container'>
 
       <div className='navbar'>
-        <div className='title'>Game 4096</div>
-        {gameOver?
-            <Arrow text='Start' handler={startGame}/>
+        <div className='title'>4096</div>
+        {gameOver || win?
+            <Arrow text='&#x21BB;' handler={startGame}/>
             :
-            // <div>Score: {score}</div>
             null
         }
       </div>
-      
       { gameOver? 
-        <div className='game-over'>Game Over</div> 
-        : 
-        <div className='game-board'>
+        <div className='game-over'>Game Over</div>
+        :
+        win? 
+          <div className='game-over'>
+            <div>You win!</div>
+            <div className='win-font'>Record: {record}</div>
+          </div> 
+          : 
+          <div className='game-board'>
 
 
-            { gameMatrix.map((row, r)=>(
-                <div key={r} className='row'>
-                    {
-                      row.map((num, i) => (
-                        <div key={i}>
-                          <Cell cellNum={num} bgColor={`cell bg-${num.toString()}`}/>
-                        </div>
-                      ))
-                    }
-                </div>
-            ))
-            }
-        </div>
+              { gameMatrix.map((row, r)=>(
+                  <div key={r} className='row'>
+                      {
+                        row.map((num, i) => (
+                          <div key={i}>
+                            <Cell cellNum={num} bgColor={`cell bg-${num.toString()}`}/>
+                          </div>
+                        ))
+                      }
+                  </div>
+              ))
+              }
+          </div>
         
       }
 
