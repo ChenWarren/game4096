@@ -16,7 +16,7 @@ const Cell: FC<CellProps> = ({
   return (
     <animated.div style={anim} className={bgColor}>
       <div>
-        {cellNum}
+        {cellNum==0? null: cellNum}
       </div>
     </animated.div>
   )
