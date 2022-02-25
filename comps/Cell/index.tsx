@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { useSpring, animated } from 'react-spring'
 
 interface CellProps {
     cellNum: number,
@@ -9,10 +10,15 @@ const Cell: FC<CellProps> = ({
     cellNum,
     bgColor,
 }) => {
+
+  const anim = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 600})
+
   return (
-    <div className={bgColor}>
+    <animated.div style={anim} className={bgColor}>
+      <div>
         {cellNum}
-    </div>
+      </div>
+    </animated.div>
   )
 }
 
