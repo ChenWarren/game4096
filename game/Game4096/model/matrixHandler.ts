@@ -100,14 +100,14 @@ const clearZero =(clearMatrix:number[])=> {
             resultM.push(clearMatrix[i])
         }
     }
-    while( resultM.length < 4) {
+    while( resultM.length < clearMatrix.length) {
         resultM.push(0)
     }
     return resultM
 }
 
 const swapMatrix = (swapMatrix:number[][]) => {
-    let resMatrix: number[][] = [[],[],[],[]]
+    let resMatrix: number[][] = [[],[],[],[],[],[],[]]
 
     for( let r=0; r<swapMatrix.length; r++){
         for( let c=0; c<swapMatrix[r].length; c++) {

@@ -5,13 +5,9 @@ import Cell from '../../comps/Cell'
 import Arrow from '../../comps/Arrow'
 import matrixHandler from './model/matrixHandler'
 import getHighestNumber from './model/getRecord'
+import create2DArray from './model/create2DArray'
 
-const initMatrix: number[][] = [
-    [0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0]
-]
+const initMatrix: number[][] = create2DArray(3, 0)
 
 const Game4096: NextPage = () => {
 
