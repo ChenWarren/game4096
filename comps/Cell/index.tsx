@@ -11,7 +11,7 @@ const Cell: FC<CellProps> = ({
 }) => {
   return (
     <div className={bgColor}>
-        {cellNum}
+        {cellNum !=0? cellNum : null}
     </div>
   )
 }
