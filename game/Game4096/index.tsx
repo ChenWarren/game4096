@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
+import { useSpring, animated } from 'react-spring'
 
 import Cell from '../../comps/Cell'
 import Arrow from '../../comps/Arrow'
@@ -21,6 +22,9 @@ const Game4096: NextPage = () => {
   const [notice, setNotice] = useState(true)
   const [score, setScore] = useState(0)
   const [record, setRecord] = useState(0)
+
+  const arrows = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 800})
+  const noti = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 1300})
 
   useEffect(()=> {
       setGameMatrix(initMatrix)
@@ -165,13 +169,13 @@ const Game4096: NextPage = () => {
 
       <div className='notice'>
           { notice?
-            <p>Click any arrow to start the game.</p>
+            <animated.div style={noti}>Click any arrow to start the game.</animated.div>
             :
             null
           }
       </div>
 
-      <div className='button-wrapper'>
+      <animated.div style={arrows} className='button-wrapper'>
 
           <div>
               <Arrow text='&#x2190;' handler={leftHandler}/>
@@ -185,7 +189,7 @@ const Game4096: NextPage = () => {
               <Arrow text = '&#x2192;' handler={rightHandler}/>
 
           </div>
-      </div>
+      </animated.div>
 
     </div>
   )

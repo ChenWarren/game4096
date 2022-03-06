@@ -1,5 +1,7 @@
+
 import { dir } from 'console'
 import React, { FC, useEffect, useState } from 'react'
+
 
 interface CellProps {
     cellNum: number,
@@ -19,6 +21,7 @@ const Cell: FC<CellProps> = ({
     >
         {cellNum !=0? cellNum : null}
     </div>
+
   )
 }
 

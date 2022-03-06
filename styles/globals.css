@@ -103,6 +103,8 @@ a {
   to { opacity: 0.8;}
 }
 
+
+
 .bg-0 {
   background-color: rgb(43, 43, 43);
   color:rgb(43, 43, 43);
@@ -160,6 +162,7 @@ a {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .arrow {
@@ -179,6 +182,7 @@ a {
    width: 400px;
    min-height: 400px;
    background-color: rgba(140, 140, 140, 0.5);
+
    color:rgb(194, 148, 49);
    font-size: 2rem;
    display: flex;
