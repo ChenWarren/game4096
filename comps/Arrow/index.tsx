@@ -7,7 +7,7 @@ interface ArrowProps {
 
 const Arrow: FC<ArrowProps> = ({
     text,
-    handler
+    handler=(d:string)=>{}
 }) => {
   return (
     <div 

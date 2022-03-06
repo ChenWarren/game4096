@@ -16,17 +16,17 @@ const matrixHandler = ({
     let Empty: number[][] =[]
 
     switch(direction) {
-        case 'Left':
+        case 'left':
             resultMatrix = matrixOperation(matrix, direction='P')
             break
-        case 'Right':
+        case 'right':
             resultMatrix = matrixOperation(matrix, direction='N')
             break
-        case 'Up':
+        case 'up':
             processMatrix = matrixOperation(swapMatrix(matrix), direction='P')
             resultMatrix = swapMatrix(processMatrix)
             break
-        case 'Down':
+        case 'down':
             processMatrix = matrixOperation(swapMatrix(matrix), direction='N')
             resultMatrix = swapMatrix(processMatrix)
             break
@@ -100,14 +100,14 @@ const clearZero =(clearMatrix:number[])=> {
             resultM.push(clearMatrix[i])
         }
     }
-    while( resultM.length < 4) {
+    while( resultM.length < clearMatrix.length) {
         resultM.push(0)
     }
     return resultM
 }
 
 const swapMatrix = (swapMatrix:number[][]) => {
-    let resMatrix: number[][] = [[],[],[],[]]
+    let resMatrix: number[][] = [[],[],[],[],[],[],[]]
 
     for( let r=0; r<swapMatrix.length; r++){
         for( let c=0; c<swapMatrix[r].length; c++) {

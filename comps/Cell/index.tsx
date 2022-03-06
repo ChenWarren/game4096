@@ -1,24 +1,27 @@
-import React, { FC } from 'react'
-import { useSpring, animated } from 'react-spring'
+
+import { dir } from 'console'
+import React, { FC, useEffect, useState } from 'react'
+
 
 interface CellProps {
     cellNum: number,
-    bgColor: string
+    bgColor: string,
+
 }
 
 const Cell: FC<CellProps> = ({
     cellNum,
     bgColor,
+
 }) => {
 
-  const anim = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 600})
-
   return (
-    <animated.div style={anim} className={bgColor}>
-      <div>
-        {cellNum==0? null: cellNum}
-      </div>
-    </animated.div>
+    <div 
+      className={bgColor}
+    >
+        {cellNum !=0? cellNum : null}
+    </div>
+
   )
 }
 
