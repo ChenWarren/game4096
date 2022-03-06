@@ -16,17 +16,17 @@ const matrixHandler = ({
     let Empty: number[][] =[]
 
     switch(direction) {
-        case 'Left':
+        case 'left':
             resultMatrix = matrixOperation(matrix, direction='P')
             break
-        case 'Right':
+        case 'right':
             resultMatrix = matrixOperation(matrix, direction='N')
             break
-        case 'Up':
+        case 'up':
             processMatrix = matrixOperation(swapMatrix(matrix), direction='P')
             resultMatrix = swapMatrix(processMatrix)
             break
-        case 'Down':
+        case 'down':
             processMatrix = matrixOperation(swapMatrix(matrix), direction='N')
             resultMatrix = swapMatrix(processMatrix)
             break

@@ -69,7 +69,37 @@ a {
     align-items: center;
     font-size: 1.5rem;
     color:rgb(186, 186, 186);
+    position: relative;
+}
+
+.cell-box {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     margin: 2px;
+}
+
+@keyframes left {
+  from { left: 0px; opacity: 1;}
+  to { left: 50px; opacity: 0;}
+}
+
+@keyframes right {
+  from { left: 0px; opacity: 1;}
+  to { left: -50px; opacity: 0;}
+}
+
+@keyframes up {
+  from { top: 0px; opacity: 1;}
+  to { top: -50px; opacity: 0;}
+}
+
+@keyframes down {
+  from { top: 0px; opacity: 1;}
+  to { top: 50px; opacity: 0;}
 }
 
 .bg-0 {

@@ -12,6 +12,7 @@ const initMatrix: number[][] = create2DArray(3, 0)
 const Game4096: NextPage = () => {
 
   const [gameMatrix, setGameMatrix] = useState(initMatrix)
+  const [arrowHited, setArrowHited] = useState(false)
   const [win, setWin] = useState(false)
   const [gameOver, setGameOver] = useState(false)
   const [notice, setNotice] = useState(true)
@@ -51,7 +52,8 @@ const Game4096: NextPage = () => {
       if(notice){
         setNotice(false)
       }
-      let direction = 'Left'
+      let direction = 'left'
+      setArrowHited(!arrowHited)
       let matrix= gameMatrix
       const res = matrixHandler({matrix, direction, score, setScore})
       checkGameStatus(res)
@@ -61,7 +63,8 @@ const Game4096: NextPage = () => {
       if(notice){
         setNotice(false)
       }
-      let direction = 'Right'
+      let direction = 'right'
+      setArrowHited(!arrowHited)
       let matrix= gameMatrix
       const res = matrixHandler({matrix, direction, score, setScore})
       checkGameStatus(res)
@@ -71,7 +74,8 @@ const Game4096: NextPage = () => {
       if(notice){
         setNotice(false)
       }
-      let direction = 'Up'
+      let direction = 'up'
+      setArrowHited(!arrowHited)
       let matrix= gameMatrix
       const res = matrixHandler({matrix, direction, score, setScore})
       checkGameStatus(res)
@@ -81,7 +85,8 @@ const Game4096: NextPage = () => {
       if(notice){
         setNotice(false)
       }
-      let direction = 'Down'
+      let direction = 'down'
+      setArrowHited(!arrowHited)
       let matrix= gameMatrix
       const res = matrixHandler({matrix, direction, score, setScore})
       checkGameStatus(res)
@@ -115,10 +120,14 @@ const Game4096: NextPage = () => {
                   <div key={r} className='row'>
                       {
                         row.map((num, i) => (
-                          <div key={i}>
+                          <div 
+                            key={i}
+                            className='cell-box' 
+                            >
                             <Cell cellNum={num} bgColor={`cell bg-${num.toString()}`}/>
                           </div>
                         ))
+                        
                       }
                   </div>
               ))
