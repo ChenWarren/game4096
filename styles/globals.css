@@ -80,26 +80,27 @@ a {
     justify-content: center;
     align-items: center;
     margin: 2px;
+    position: relative;
 }
 
 @keyframes left {
-  from { left: 0px; opacity: 1;}
-  to { left: 50px; opacity: 0;}
+  from { opacity: 1;}
+  to { opacity: 0.8;}
 }
 
 @keyframes right {
-  from { left: 0px; opacity: 1;}
-  to { left: -50px; opacity: 0;}
+  from { opacity: 1;}
+  to { opacity: 0.8;}
 }
 
 @keyframes up {
-  from { top: 0px; opacity: 1;}
-  to { top: -50px; opacity: 0;}
+  from { opacity: 1;}
+  to { opacity: 0.8;}
 }
 
 @keyframes down {
-  from { top: 0px; opacity: 1;}
-  to { top: 50px; opacity: 0;}
+  from { opacity: 1;}
+  to { opacity: 0.8;}
 }
 
 .bg-0 {

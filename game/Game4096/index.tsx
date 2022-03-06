@@ -7,12 +7,15 @@ import matrixHandler from './model/matrixHandler'
 import getHighestNumber from './model/getRecord'
 import create2DArray from './model/create2DArray'
 
-const initMatrix: number[][] = create2DArray(3, 0)
+const maxtrixD = 4
+const timeoutMS = 300
+const initMatrix: number[][] = create2DArray(maxtrixD, 0)
+
 
 const Game4096: NextPage = () => {
 
   const [gameMatrix, setGameMatrix] = useState(initMatrix)
-  const [arrowHited, setArrowHited] = useState(false)
+  const [arrowHited, setArrowHited] = useState('')
   const [win, setWin] = useState(false)
   const [gameOver, setGameOver] = useState(false)
   const [notice, setNotice] = useState(true)
@@ -26,6 +29,7 @@ const Game4096: NextPage = () => {
   const startGame = () => {
       if(gameOver) {
         setGameOver(false)
+        setArrowHited('')
       }
       if(win) {
         setWin(false)
@@ -37,7 +41,10 @@ const Game4096: NextPage = () => {
 
   const checkGameStatus = (result:any) => {
     if(result != 'GameOver'){
-      setGameMatrix(result)
+      setTimeout(()=>{
+        setGameMatrix(result)
+        setArrowHited('')
+      }, timeoutMS)
       let maxNumber = getHighestNumber(result)
       setRecord(maxNumber)
       if(maxNumber==4096){
@@ -48,50 +55,66 @@ const Game4096: NextPage = () => {
     }
   }
 
+  const gameOperate = (d:string)=>{
+      if(notice){
+        setNotice(false)
+      }
+      let direction: string = d
+      setArrowHited(direction)
+      let matrix= gameMatrix
+      const res = matrixHandler({matrix, direction, score, setScore})
+      checkGameStatus(res)
+  }
+
   const leftHandler = () => {
       if(notice){
         setNotice(false)
       }
-      let direction = 'left'
-      setArrowHited(!arrowHited)
-      let matrix= gameMatrix
-      const res = matrixHandler({matrix, direction, score, setScore})
-      checkGameStatus(res)
+      gameOperate('left')
   }
 
   const rightHandler = () => {
       if(notice){
         setNotice(false)
       }
-      let direction = 'right'
-      setArrowHited(!arrowHited)
-      let matrix= gameMatrix
-      const res = matrixHandler({matrix, direction, score, setScore})
-      checkGameStatus(res)
+      gameOperate('right')
   }
 
   const upHandler = () => {
       if(notice){
         setNotice(false)
       }
-      let direction = 'up'
-      setArrowHited(!arrowHited)
-      let matrix= gameMatrix
-      const res = matrixHandler({matrix, direction, score, setScore})
-      checkGameStatus(res)
+      gameOperate('up')
   }
 
   const downHandler = () => {
       if(notice){
         setNotice(false)
       }
-      let direction = 'down'
-      setArrowHited(!arrowHited)
-      let matrix= gameMatrix
-      const res = matrixHandler({matrix, direction, score, setScore})
-      checkGameStatus(res)
+      gameOperate('down')
   }
 
+  const checkRnI =(row:number,ind:number, di:string) => {
+      if(di=='left'){
+        if(ind!==0){
+          return true
+        }
+      } else if(di=='right'){
+        if(ind!==maxtrixD-1){
+          return true
+        }
+      } else if(di=='up'){
+        if(row!==0){
+          return true
+        }
+      } else if(di=='down'){
+        if(row!==maxtrixD-1){
+          return true
+        }
+      } else {
+        return false
+      }
+  }
   
   return (
     <div className='container'>
@@ -122,7 +145,10 @@ const Game4096: NextPage = () => {
                         row.map((num, i) => (
                           <div 
                             key={i}
-                            className='cell-box' 
+                            className='cell-box'
+                            style={{
+                              animation: arrowHited!='' && checkRnI(r,i,arrowHited) && num!==0? `${arrowHited} 200ms` : ''
+                            }} 
                             >
                             <Cell cellNum={num} bgColor={`cell bg-${num.toString()}`}/>
                           </div>
