@@ -142,7 +142,7 @@ const Game4096: NextPage = () => {
           : 
           <div className='game-board'>
 
-
+            <div className='board-border'>
               { gameMatrix.map((row, r)=>(
                   <div key={r} className='row'>
                       {
@@ -162,6 +162,8 @@ const Game4096: NextPage = () => {
                   </div>
               ))
               }
+            </div>
+
           </div>
         
       }
@@ -182,7 +184,7 @@ const Game4096: NextPage = () => {
           </div>
           <div>
               <Arrow text = '&#x2191;' handler={upHandler}/>
-              <div style={{width: 70, height: 50}}></div>
+              <div style={{width: 50, height: 50}}></div>
               <Arrow text = '&#x2193;' handler={downHandler}/>
           </div>
           <div>
