@@ -44,7 +44,7 @@ a {
 
 .game-board {
     width: 400px;
-    min-height: 400px;
+    min-height: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -85,22 +85,22 @@ a {
 
 @keyframes left {
   from { opacity: 1;}
-  to { opacity: 0.8;}
+  to { opacity: 0.9;}
 }
 
 @keyframes right {
   from { opacity: 1;}
-  to { opacity: 0.8;}
+  to { opacity: 0.9;}
 }
 
 @keyframes up {
   from { opacity: 1;}
-  to { opacity: 0.8;}
+  to { opacity: 0.9;}
 }
 
 @keyframes down {
   from { opacity: 1;}
-  to { opacity: 0.8;}
+  to { opacity: 0.9;}
 }
 
 
@@ -180,7 +180,7 @@ a {
 
 .game-over {
    width: 400px;
-   min-height: 400px;
+   min-height: 300px;
    background-color: rgba(140, 140, 140, 0.5);
 
    color:rgb(194, 148, 49);
