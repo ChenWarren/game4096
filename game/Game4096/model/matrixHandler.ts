@@ -40,23 +40,17 @@ const matrixHandler = ({
     if( Empty.length == 0) {
         return 'GameOver'
     } else{
- 
         const randomPosi = getRandomInt(0, Empty.length)
         const enterId = Empty[randomPosi]
         resultMatrix[enterId[0]][enterId[1]] = 2
-
         return resultMatrix
-
     }
-
 }
 
 export default matrixHandler
 
-const matrixOperation = (inputMatrix:number[][], dir:string) => {
-    
+const matrixOperation = (inputMatrix:number[][], dir:string) => {  
     let newMatrix: number[][] =[]
-
     for( let row=0; row<inputMatrix.length; row++) {
         if(dir == 'P') {
             inputMatrix[row] = positiveMove(inputMatrix[row])
@@ -65,22 +59,18 @@ const matrixOperation = (inputMatrix:number[][], dir:string) => {
         }
         newMatrix.push(inputMatrix[row])
     }
-
     return newMatrix
 }
 
 const positiveMove = (posiMatrix:number[]) => {
     posiMatrix = clearZero(posiMatrix)
-
     for( let i=0; i<posiMatrix.length; i++) {
         if(posiMatrix[i] == posiMatrix[i+1]){
             posiMatrix[i] = posiMatrix[i] + posiMatrix[i+1]
             posiMatrix[i+1] =0
         }
     }
-
     posiMatrix = clearZero(posiMatrix)
-
     return posiMatrix
 }
 
@@ -92,9 +82,7 @@ const negativeMove = (negaMatrix: number[]) => {
 }
 
 const clearZero =(clearMatrix:number[])=> {
-
     let resultM: number[]=[]
-
     for( let i=0; i<clearMatrix.length; i++) {
         if(clearMatrix[i] != 0) {
             resultM.push(clearMatrix[i])
@@ -108,7 +96,6 @@ const clearZero =(clearMatrix:number[])=> {
 
 const swapMatrix = (swapMatrix:number[][]) => {
     let resMatrix: number[][] = [[],[],[],[],[],[],[]]
-
     for( let r=0; r<swapMatrix.length; r++){
         for( let c=0; c<swapMatrix[r].length; c++) {
             resMatrix[c].push(swapMatrix[r][c])
@@ -118,9 +105,7 @@ const swapMatrix = (swapMatrix:number[][]) => {
 }
 
 const getEmptyIndex = (scanMatrix: number[][]) => {
-
     let allList: number[][] = []
-
     for( let i=0; i<scanMatrix.length; i++){
         for ( let j=0; j<scanMatrix[i].length; j++) {
             if( scanMatrix[i][j] == 0) {
@@ -128,7 +113,6 @@ const getEmptyIndex = (scanMatrix: number[][]) => {
             }
         }
     }
-
     return allList
 }
 

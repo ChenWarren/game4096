@@ -6,13 +6,11 @@ import React, { FC, useEffect, useState } from 'react'
 interface CellProps {
     cellNum: number,
     bgColor: string,
-
 }
 
 const Cell: FC<CellProps> = ({
     cellNum,
     bgColor,
-
 }) => {
 
   return (
