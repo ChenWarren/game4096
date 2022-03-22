@@ -11,7 +11,10 @@ import create2DArray from './model/create2DArray'
 const maxtrixD = 4
 const timeoutMS = 300
 const initMatrix: number[][] = create2DArray(maxtrixD, 0)
-
+const howToPlay =`
+    How to play? 
+    Click arrows to move the numbers. Two same numbers will add up. Keep adding numbers up to 4096 to win the game. Good luck!
+  `
 
 const Game4096: NextPage = () => {
 
@@ -22,6 +25,7 @@ const Game4096: NextPage = () => {
   const [notice, setNotice] = useState(true)
   const [score, setScore] = useState(0)
   const [record, setRecord] = useState(0)
+  const [showingHelp, setShowingHelp] = useState(false)
 
   const arrows = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 800})
   const noti = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 1300})
@@ -98,6 +102,11 @@ const Game4096: NextPage = () => {
       gameOperate('down')
   }
 
+  const showHelp = () => {
+    setShowingHelp(!showingHelp)
+    console.log(showingHelp)
+  }
+
   const checkRnI =(row:number,ind:number, di:string) => {
       if(di=='left'){
         if(ind!==0){
@@ -122,13 +131,12 @@ const Game4096: NextPage = () => {
   
   return (
     <div className='container'>
-
       <div className='navbar'>
         <div className='title'>4096</div>
         {gameOver || win?
-            <Arrow text='&#x21BB;' handler={startGame}/>
+            <Arrow text='&#x21BA;' handler={startGame}/>
             :
-            null
+            <div className='help-circle' onClick={showHelp}>?</div>
         }
       </div>
       { gameOver? 
@@ -157,17 +165,13 @@ const Game4096: NextPage = () => {
                             <Cell cellNum={num} bgColor={`cell bg-${num.toString()}`}/>
                           </div>
                         ))
-                        
                       }
                   </div>
               ))
               }
             </div>
-
           </div>
-        
       }
-
 
       <div className='notice'>
           { notice?
@@ -178,6 +182,19 @@ const Game4096: NextPage = () => {
       </div>
 
       <animated.div style={arrows} className='button-wrapper'>
+
+          {showingHelp? 
+            <div className='help-board'>
+              <div className='help-text'>
+                {howToPlay}
+              </div>
+              <div className='help-board-bottem'>
+                <div className='help-circle' onClick={showHelp}>&#x21BA;</div>
+              </div>
+            </div>
+            :
+            null
+          }
 
           <div>
               <Arrow text='&#x2190;' handler={leftHandler}/>

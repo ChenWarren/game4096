@@ -1,6 +1,4 @@
 import type { NextPage } from 'next'
-import { useState } from 'react'
-
 import Game4096 from '../game/Game4096'
 
 const Home: NextPage = () => {
