@@ -104,7 +104,6 @@ const Game4096: NextPage = () => {
 
   const showHelp = () => {
     setShowingHelp(!showingHelp)
-    console.log(showingHelp)
   }
 
   const checkRnI =(row:number,ind:number, di:string) => {
