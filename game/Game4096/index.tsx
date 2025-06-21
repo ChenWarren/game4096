@@ -26,6 +26,8 @@ const Game4096: NextPage = () => {
   const [score, setScore] = useState(0)
   const [record, setRecord] = useState(0)
   const [showingHelp, setShowingHelp] = useState(false)
+  const [mergedCells, setMergedCells] = useState<Array<{row: number, col: number}>>([])
+  const [newTilePosition, setNewTilePosition] = useState<{row: number, col: number} | null>(null)
 
   const arrows = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 800})
   const noti = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 1300})
@@ -49,11 +51,26 @@ const Game4096: NextPage = () => {
 
   const checkGameStatus = (result:any) => {
     if(result != 'GameOver'){
+      const matrix = result.matrix || result
+      const mergedCells = result.mergedCells || []
+      const newTilePos = result.newTilePosition || null
+      
+      if(mergedCells.length > 0) {
+        setMergedCells(mergedCells)
+        setTimeout(() => setMergedCells([]), 400)
+      }
+      
       setTimeout(()=>{
-        setGameMatrix(result)
+        setGameMatrix(matrix)
         setArrowHited('')
+        
+        if(newTilePos) {
+          setNewTilePosition(newTilePos)
+          setTimeout(() => setNewTilePosition(null), 400)
+        }
       }, timeoutMS)
-      let maxNumber = getHighestNumber(result)
+      
+      let maxNumber = getHighestNumber(matrix)
       setRecord(maxNumber)
       if(maxNumber==4096){
           setWin(true)
@@ -127,6 +144,14 @@ const Game4096: NextPage = () => {
         return false
       }
   }
+
+  const isCellMerged = (row: number, col: number) => {
+    return mergedCells.some(cell => cell.row === row && cell.col === col)
+  }
+
+  const isNewTile = (row: number, col: number) => {
+    return newTilePosition && newTilePosition.row === row && newTilePosition.col === col
+  }
   
   return (
     <div className='container'>
@@ -153,17 +178,29 @@ const Game4096: NextPage = () => {
               { gameMatrix.map((row, r)=>(
                   <div key={r} className='row'>
                       {
-                        row.map((num, i) => (
-                          <div 
-                            key={i}
-                            className='cell-box'
-                            style={{
-                              animation: arrowHited!='' && checkRnI(r,i,arrowHited) && num!==0? `${arrowHited} 200ms` : ''
-                            }} 
-                            >
-                            <Cell cellNum={num} bgColor={`cell bg-${num.toString()}`}/>
-                          </div>
-                        ))
+                        row.map((num, i) => {
+                          let animationStyle = ''
+                          
+                          if (isCellMerged(r, i) && num !== 0) {
+                            animationStyle = 'merge 400ms ease-in-out'
+                          } else if (isNewTile(r, i) && num !== 0) {
+                            animationStyle = 'newTile 400ms ease-in-out'
+                          } else if (arrowHited !== '' && checkRnI(r, i, arrowHited) && num !== 0) {
+                            animationStyle = `${arrowHited} 200ms ease-in-out`
+                          }
+                          
+                          return (
+                            <div 
+                              key={i}
+                              className='cell-box'
+                              style={{
+                                animation: animationStyle
+                              }} 
+                              >
+                              <Cell cellNum={num} bgColor={`cell bg-${num.toString()}`}/>
+                            </div>
+                          )
+                        })
                       }
                   </div>
               ))
