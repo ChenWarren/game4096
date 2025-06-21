@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useSpring, animated } from 'react-spring'
 
 import Cell from '../../comps/Cell'
@@ -7,6 +7,7 @@ import Arrow from '../../comps/Arrow'
 import matrixHandler from './model/matrixHandler'
 import getHighestNumber from './model/getRecord'
 import create2DArray from './model/create2DArray'
+import SoundManager from './model/soundManager'
 
 const maxtrixD = 4
 const timeoutMS = 300
@@ -28,6 +29,7 @@ const Game4096: NextPage = () => {
   const [showingHelp, setShowingHelp] = useState(false)
   const [mergedCells, setMergedCells] = useState<Array<{row: number, col: number}>>([])
   const [newTilePosition, setNewTilePosition] = useState<{row: number, col: number} | null>(null)
+  const soundManager = useRef<SoundManager | null>(null)
 
   const arrows = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 800})
   const noti = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 1300})
@@ -35,6 +37,10 @@ const Game4096: NextPage = () => {
   useEffect(()=> {
       setGameMatrix(initMatrix)
   }, [gameOver])
+
+  useEffect(() => {
+    soundManager.current = new SoundManager()
+  }, [])
 
   const startGame = () => {
       if(gameOver) {
@@ -57,6 +63,7 @@ const Game4096: NextPage = () => {
       
       if(mergedCells.length > 0) {
         setMergedCells(mergedCells)
+        soundManager.current?.play('merge')
         setTimeout(() => setMergedCells([]), 400)
       }
       
@@ -66,6 +73,7 @@ const Game4096: NextPage = () => {
         
         if(newTilePos) {
           setNewTilePosition(newTilePos)
+          soundManager.current?.play('spawn')
           setTimeout(() => setNewTilePosition(null), 400)
         }
       }, timeoutMS)
@@ -74,9 +82,11 @@ const Game4096: NextPage = () => {
       setRecord(maxNumber)
       if(maxNumber==4096){
           setWin(true)
+          soundManager.current?.play('win')
       }
     } else {
       setGameOver(true)
+      soundManager.current?.play('gameover')
     }
   }
 
@@ -86,6 +96,7 @@ const Game4096: NextPage = () => {
       }
       let direction: string = d
       setArrowHited(direction)
+      soundManager.current?.play('slide')
       let matrix= gameMatrix
       const res = matrixHandler({matrix, direction, score, setScore})
       checkGameStatus(res)
