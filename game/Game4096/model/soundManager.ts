@@ -12,7 +12,8 @@ class SoundManager {
       merge: '/sounds/merge.mp3',
       spawn: '/sounds/spawn.mp3',
       win: '/sounds/win.mp3',
-      gameover: '/sounds/gameover.mp3'
+      gameover: '/sounds/gameover.mp3',
+      noway: '/sounds/noway.mp3'
     }
 
     Object.entries(soundFiles).forEach(([key, path]) => {

@@ -42,6 +42,9 @@ const matrixHandler = ({
             break    
     }
 
+    // Check if any movement occurred by comparing matrices
+    const hasMovement = !matricesEqual(matrix, resultMatrix)
+
     Empty = getEmptyIndex(resultMatrix)
 
     if( Empty.length == 0) {
@@ -53,7 +56,8 @@ const matrixHandler = ({
         return {
             matrix: resultMatrix,
             mergedCells: mergedCells,
-            newTilePosition: {row: enterId[0], col: enterId[1]}
+            newTilePosition: {row: enterId[0], col: enterId[1]},
+            hasMovement: hasMovement
         }
     }
 }
@@ -174,4 +178,15 @@ const getEmptyIndex = (scanMatrix: number[][]) => {
 
 const getRandomInt = (min:number, max:number) => {
     return Math.floor(Math.random()*(max-min)) + min
+}
+
+const matricesEqual = (matrix1: number[][], matrix2: number[][]) => {
+    if (matrix1.length !== matrix2.length) return false
+    for (let i = 0; i < matrix1.length; i++) {
+        if (matrix1[i].length !== matrix2[i].length) return false
+        for (let j = 0; j < matrix1[i].length; j++) {
+            if (matrix1[i][j] !== matrix2[i][j]) return false
+        }
+    }
+    return true
 }
