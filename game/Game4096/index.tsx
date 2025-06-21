@@ -29,6 +29,8 @@ const Game4096: NextPage = () => {
   const [showingHelp, setShowingHelp] = useState(false)
   const [mergedCells, setMergedCells] = useState<Array<{row: number, col: number}>>([])
   const [newTilePosition, setNewTilePosition] = useState<{row: number, col: number} | null>(null)
+  const [steps, setSteps] = useState(0)
+  const [soundEnabled, setSoundEnabled] = useState(true)
   const soundManager = useRef<SoundManager | null>(null)
 
   const arrows = useSpring({ to: { opacity: 1}, from: {opacity: 0}, delay: 800})
@@ -53,6 +55,7 @@ const Game4096: NextPage = () => {
       setNotice(true)
       setGameMatrix(initMatrix)
       setRecord(0)
+      setSteps(0)
   }
 
   const checkGameStatus = (result:any) => {
@@ -60,6 +63,7 @@ const Game4096: NextPage = () => {
       const matrix = result.matrix || result
       const mergedCells = result.mergedCells || []
       const newTilePos = result.newTilePosition || null
+      const hasMovement = result.hasMovement !== undefined ? result.hasMovement : true
       
       if(mergedCells.length > 0) {
         setMergedCells(mergedCells)
@@ -68,13 +72,29 @@ const Game4096: NextPage = () => {
       }
       
       setTimeout(()=>{
-        setGameMatrix(matrix)
-        setArrowHited('')
-        
-        if(newTilePos) {
-          setNewTilePosition(newTilePos)
+        // Create matrix without the new tile first
+        if(newTilePos && hasMovement) {
+          const matrixWithoutNewTile = matrix.map((row: number[], r: number) => 
+            row.map((cell: number, c: number) => 
+              r === newTilePos.row && c === newTilePos.col ? 0 : cell
+            )
+          )
+          setGameMatrix(matrixWithoutNewTile)
+          setArrowHited('')
+          
+          // Then add the new tile after 500ms delay
           soundManager.current?.play('spawn')
-          setTimeout(() => setNewTilePosition(null), 400)
+          setTimeout(() => {
+            setGameMatrix(matrix)
+            setNewTilePosition(newTilePos)
+            setTimeout(() => setNewTilePosition(null), 400)
+          }, 500)
+        } else if(newTilePos && !hasMovement) {
+          // No movement occurred, don't spawn new tile, just play noway sound
+          setArrowHited('')
+        } else {
+          setGameMatrix(matrix)
+          setArrowHited('')
         }
       }, timeoutMS)
       
@@ -91,14 +111,27 @@ const Game4096: NextPage = () => {
   }
 
   const gameOperate = (d:string)=>{
+      const isFirstMove = notice
       if(notice){
         setNotice(false)
       }
       let direction: string = d
       setArrowHited(direction)
-      soundManager.current?.play('slide')
+      setSteps(steps + 1)
       let matrix= gameMatrix
       const res = matrixHandler({matrix, direction, score, setScore})
+      
+      if(!isFirstMove && res !== 'GameOver') {
+        const hasMovement = res.hasMovement !== undefined ? res.hasMovement : true
+        const hasMerging = res.mergedCells && res.mergedCells.length > 0
+        
+        if(hasMovement || hasMerging) {
+          soundManager.current?.play('slide')
+        } else {
+          soundManager.current?.play('noway')
+        }
+      }
+      
       checkGameStatus(res)
   }
 
@@ -134,6 +167,11 @@ const Game4096: NextPage = () => {
     setShowingHelp(!showingHelp)
   }
 
+  const toggleSound = () => {
+    const newSoundState = soundManager.current?.toggle() ?? false
+    setSoundEnabled(newSoundState)
+  }
+
   const checkRnI =(row:number,ind:number, di:string) => {
       if(di=='left'){
         if(ind!==0){
@@ -163,16 +201,33 @@ const Game4096: NextPage = () => {
   const isNewTile = (row: number, col: number) => {
     return newTilePosition && newTilePosition.row === row && newTilePosition.col === col
   }
+
+  const SpeakerOnIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+    </svg>
+  )
+
+  const SpeakerOffIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+    </svg>
+  )
   
   return (
     <div className='container'>
       <div className='navbar'>
         <div className='title'>4096</div>
-        {gameOver || win?
-            <Arrow text='&#x21BA;' handler={startGame}/>
-            :
-            <div className='help-circle' onClick={showHelp}>?</div>
-        }
+        <div className='navbar-controls'>
+          <div className='sound-toggle' onClick={toggleSound}>
+            {soundEnabled ? <SpeakerOnIcon /> : <SpeakerOffIcon />}
+          </div>
+          {gameOver || win?
+              <Arrow text='&#x21BA;' handler={startGame}/>
+              :
+              <div className='help-circle' onClick={showHelp}>?</div>
+          }
+        </div>
       </div>
       { gameOver? 
         <div className='game-over'>Game Over</div>
@@ -224,7 +279,7 @@ const Game4096: NextPage = () => {
           { notice?
             <animated.div style={noti}>Click any arrow to start the game.</animated.div>
             :
-            null
+            steps > 0 ? <div>{steps} step{steps !== 1 ? 's' : ''}</div> : null
           }
       </div>
 
