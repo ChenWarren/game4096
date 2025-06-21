@@ -123,7 +123,9 @@ const Game4096: NextPage = () => {
       
       if(!isFirstMove && res !== 'GameOver') {
         const hasMovement = res.hasMovement !== undefined ? res.hasMovement : true
-        if(hasMovement) {
+        const hasMerging = res.mergedCells && res.mergedCells.length > 0
+        
+        if(hasMovement || hasMerging) {
           soundManager.current?.play('slide')
         } else {
           soundManager.current?.play('noway')
