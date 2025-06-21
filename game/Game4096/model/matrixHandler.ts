@@ -14,21 +14,28 @@ const matrixHandler = ({
     let resultMatrix: number[][] = []
     let processMatrix: number[][] = []
     let Empty: number[][] =[]
+    let mergedCells: Array<{row: number, col: number}> = []
 
     switch(direction) {
         case 'left':
-            resultMatrix = matrixOperation(matrix, direction='P')
+            const leftResult = matrixOperationWithMerge(matrix, direction='P')
+            resultMatrix = leftResult.matrix
+            mergedCells = leftResult.mergedCells
             break
         case 'right':
-            resultMatrix = matrixOperation(matrix, direction='N')
+            const rightResult = matrixOperationWithMerge(matrix, direction='N')
+            resultMatrix = rightResult.matrix
+            mergedCells = rightResult.mergedCells
             break
         case 'up':
-            processMatrix = matrixOperation(swapMatrix(matrix), direction='P')
-            resultMatrix = swapMatrix(processMatrix)
+            const upResult = matrixOperationWithMerge(swapMatrix(matrix), direction='P')
+            resultMatrix = swapMatrix(upResult.matrix)
+            mergedCells = upResult.mergedCells.map(cell => ({row: cell.col, col: cell.row}))
             break
         case 'down':
-            processMatrix = matrixOperation(swapMatrix(matrix), direction='N')
-            resultMatrix = swapMatrix(processMatrix)
+            const downResult = matrixOperationWithMerge(swapMatrix(matrix), direction='N')
+            resultMatrix = swapMatrix(downResult.matrix)
+            mergedCells = downResult.mergedCells.map(cell => ({row: cell.col, col: cell.row}))
             break
         case 'Start':
             resultMatrix = matrix
@@ -43,11 +50,34 @@ const matrixHandler = ({
         const randomPosi = getRandomInt(0, Empty.length)
         const enterId = Empty[randomPosi]
         resultMatrix[enterId[0]][enterId[1]] = 2
-        return resultMatrix
+        return {
+            matrix: resultMatrix,
+            mergedCells: mergedCells,
+            newTilePosition: {row: enterId[0], col: enterId[1]}
+        }
     }
 }
 
 export default matrixHandler
+
+const matrixOperationWithMerge = (inputMatrix:number[][], dir:string) => {  
+    let newMatrix: number[][] =[]
+    let mergedCells: Array<{row: number, col: number}> = []
+    
+    for( let row=0; row<inputMatrix.length; row++) {
+        if(dir == 'P') {
+            const result = positiveMoveWithMerge(inputMatrix[row], row)
+            inputMatrix[row] = result.row
+            mergedCells = mergedCells.concat(result.mergedCells)
+        } else if (dir == 'N') {
+            const result = negativeMoveWithMerge(inputMatrix[row], row)
+            inputMatrix[row] = result.row
+            mergedCells = mergedCells.concat(result.mergedCells)
+        }
+        newMatrix.push(inputMatrix[row])
+    }
+    return {matrix: newMatrix, mergedCells}
+}
 
 const matrixOperation = (inputMatrix:number[][], dir:string) => {  
     let newMatrix: number[][] =[]
@@ -60,6 +90,32 @@ const matrixOperation = (inputMatrix:number[][], dir:string) => {
         newMatrix.push(inputMatrix[row])
     }
     return newMatrix
+}
+
+const positiveMoveWithMerge = (posiMatrix:number[], rowIndex: number) => {
+    posiMatrix = clearZero(posiMatrix)
+    let mergedCells: Array<{row: number, col: number}> = []
+    
+    for( let i=0; i<posiMatrix.length; i++) {
+        if(posiMatrix[i] == posiMatrix[i+1] && posiMatrix[i] !== 0){
+            posiMatrix[i] = posiMatrix[i] + posiMatrix[i+1]
+            posiMatrix[i+1] = 0
+            mergedCells.push({row: rowIndex, col: i})
+        }
+    }
+    posiMatrix = clearZero(posiMatrix)
+    return {row: posiMatrix, mergedCells}
+}
+
+const negativeMoveWithMerge = (negaMatrix: number[], rowIndex: number) => {
+    let reverMatrix = negaMatrix.reverse()
+    const result = positiveMoveWithMerge(reverMatrix, rowIndex)
+    negaMatrix = result.row.reverse()
+    const mergedCells = result.mergedCells.map(cell => ({
+        row: cell.row,
+        col: negaMatrix.length - 1 - cell.col
+    }))
+    return {row: negaMatrix, mergedCells}
 }
 
 const positiveMove = (posiMatrix:number[]) => {
